@@ -27,9 +27,28 @@ type model struct {
 	GroupSqDeviation uint32
 }
 
+func GenerateMinModel(ts []timeslot) model {
+	mindev := uint32(10000)
+	m := generateModel()
+	filltimeslots(&m, ts, 0, groupSize*100)
+	mindev = calculateAll(&m)
+
+	for i := 0; i < 3000; i++ {
+		m2 := generateModel()
+		filltimeslots(&m2, ts, 0, 3480)
+		dev2 := calculateAll(&m2)
+		if dev2 < mindev {
+			m = m2
+			mindev = dev2
+		}
+	}
+	SaveModel(&m, "i")
+	return m
+}
+
 func generateModel() model {
 	var m model
-	m.Version = 2
+	m.Version = variant
 	m.inputs = make([]node, countofinputs)
 	m.Layer1 = make([]node, countOfNodesLayer1)
 	fillLayer(m.Layer1, m.inputs)

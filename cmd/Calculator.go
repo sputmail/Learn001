@@ -4,6 +4,13 @@ import (
 	"math"
 )
 
+func testInput(ml *model) int16 {
+	var ts timeslot = timeslot{-16, 9, -27, 255, 5, 58, 32, -11}
+	fillinputs(ml, ts)
+	answ, _ := calculate(ml)
+	return answ
+}
+
 func calculateAll(ml *model) uint32 {
 	ml.GroupSqDeviation = 0
 	for i := range ml.timeslots {
@@ -41,9 +48,10 @@ func fillinputs(ml *model, ts timeslot) {
 	ml.inputs[0].answer = ts.open
 	ml.inputs[1].answer = ts.max
 	ml.inputs[2].answer = ts.min
-	ml.inputs[3].answer = int8(ts.volume - 127)
+	ml.inputs[3].answer = int8(ts.volume - 128)
 	ml.inputs[4].answer = ts.open1
 	ml.inputs[5].answer = ts.open2
+	ml.inputs[6].answer = ts.open3
 	ml.rightanswer = ts.answer
 	ml.answer, ml.deviation = calculate(ml)
 }
