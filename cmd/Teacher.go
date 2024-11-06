@@ -25,41 +25,6 @@ func learnConnections(ml *model, cn []connection) {
 	}
 }
 
-func learnConnection(ml *model, cn *connection) int {
-	wasdeviation := ml.deviation
-	wasanswer := ml.answer
-	wasvalue := cn.Weight
-
-	cn.Weight = rnd127()
-	_, deviationrandom := calculate(ml)
-	if deviationrandom < wasdeviation {
-		return 0
-	} else {
-		ml.deviation = wasdeviation
-		ml.answer = wasanswer
-		cn.Weight = wasvalue
-
-	}
-
-	cn.Weight++
-	_, deviationplus := calculate(ml)
-	if deviationplus < wasdeviation {
-
-		return 0
-	}
-	cn.Weight -= 2
-	_, deviationminus := calculate(ml)
-	if deviationminus < wasdeviation {
-		//fmt.Printf(">deviation minus = %d original deviation = %d", deviationminus, wasdeviation)
-		return 0
-	}
-
-	ml.deviation = wasdeviation
-	ml.answer = wasanswer
-	cn.Weight = wasvalue
-	return 0
-}
-
 func learnConnectionByGroup(ml *model, cn *connection) int {
 	wasdeviation := ml.GroupSqDeviation
 	wasweight := cn.Weight
