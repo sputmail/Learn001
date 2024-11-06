@@ -16,7 +16,7 @@ func main() {
 	deviationtest := uint32(0)
 	ts := loadtimeslots()
 
-	ml := GenerateMinModel(ts)
+	ml := generateMinModel(ts)
 	filltimeslots(&ml, ts, 0, groupSize)
 	deviation := calculateAll(&ml)
 	fmt.Printf("model was made, initial deviation = %d\n", deviation)
